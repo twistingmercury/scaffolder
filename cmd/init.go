@@ -29,7 +29,7 @@ const ( // flag names
 var initCmd = &cobra.Command{
 	Use:   "init",
 	Short: "Initializes a new project using a project from github.com as a template.",
-	Run:   createProject,
+	Run:   CreateProject,
 }
 
 func init() {
@@ -44,7 +44,8 @@ func init() {
 	initCmd.Flags().BoolP(helpFlag, "h", false, "Help for init command.")
 }
 
-func createProject(cmd *cobra.Command, _ []string) {
+// CreateProject creates a new project using a project from GitHub as a template.
+func CreateProject(cmd *cobra.Command, _ []string) {
 	if cmd.Flag(helpFlag).Changed {
 		fmt.Println("Help for init command")
 		_ = cmd.Help()
@@ -84,13 +85,13 @@ func createProject(cmd *cobra.Command, _ []string) {
 	}
 	fmt.Println("project cloned successfully.")
 
-	err = makeExecutable(binName + "/_build/build.sh")
+	err = MakeExecutable(binName + "/_build/build.sh")
 	if err != nil {
 		fmt.Println("error making build.sh executable:", err)
 		return
 	}
 
-	err = makeExecutable(binName + "/_build/common.sh")
+	err = MakeExecutable(binName + "/_build/common.sh")
 	if err != nil {
 		fmt.Println("error making common.sh executable:", err)
 		return
@@ -181,6 +182,7 @@ func GoModTidy(path string) error {
 	return cmd.Wait()
 }
 
-func makeExecutable(path string) error {
+// MakeExecutable makes a file executable.
+func MakeExecutable(path string) error {
 	return os.Chmod(path, 0755)
 }
