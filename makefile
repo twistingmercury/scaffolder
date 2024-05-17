@@ -1,5 +1,5 @@
-BIN_DIR := "./_bin/"
-BIN_NAME := "scaffolder"
+BIN_DIR := ./_bin/
+BIN_NAME := scaffolder
 BUILD_DATE := $(shell date +"%Y-%m-%dT")
 BUILD_VER := "n/a"
 GIT_COMMIT := "n/a"
@@ -21,21 +21,21 @@ default: help
 help:
 	@echo "\nScaffolder makefile usage: make [target]"
 	@echo "  Targets:"
-	@echo "  » clean           Remove build artifacts"
-	@echo "  » build           Build the api binary"
-	@echo "  » test            Run all unit tests"
+	@echo "  » clean           Remove build artifacts and clean up the project"
+	@echo "  » bin             Build the binary and output to _bin/ directory"
+	@echo "  » test            Run all unit tests and generate coverage report"
 
 .PHONY: clean
 clean:
 	@rm -rf $(BIN_DIR) > /dev/null 2>&1
 
-.PHONY: build
-build: clean
+.PHONY: bin
+bin: clean
 	go build \
 	-ldflags "-X '$(MODULE_NAME)/cmd/conf.buildDate=$(BUILD_DATE)' \
 	-X '$(MODULE_NAME)/cmd/conf.buildVer=$(BUILD_VER)' \
 	-X '$(MODULE_NAME)/cmd/conf.buildCommit=$(GIT_COMMIT)' -s -w" \
-	-o $(BIN_DIR)$(BIN_NAME) ./main.go
+	-o "$(BIN_DIR)$(BIN_NAME)" ./main.go
 
 .PHONY: test
 test:
