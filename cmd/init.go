@@ -25,7 +25,7 @@ const ( // flag names
 	tmplFlag        = "template"
 )
 
-// initCmd represents the init command
+// initCmd represents the init command for scaffolder.
 var initCmd = &cobra.Command{
 	Use:   "init",
 	Short: "Initializes a new project using a project from github.com as a template.",
@@ -39,8 +39,8 @@ func init() {
 	initCmd.Flags().StringP(moduleNameFlag, "m", "", "[Required] Name of the go module (e.g. github.com/username/project-name) as set in go.mod file")
 	initCmd.Flags().StringP(binNameFlag, "b", "", "[Required] The name of the binary file to be compiled. Sets the service name in the conf.go file.")
 	initCmd.Flags().StringP(tmplFlag, "t", "https://github.com/twistingmercury/gobasetmpl.git", "[Required] The project to clone from github.com.")
-	initCmd.Flags().StringP(descriptionFlag, "d", "", "A brief description of the project, set in the dockerfile as a lable.")
-	initCmd.Flags().StringP(vendorNameFlag, "v", "", "The name of the vendor, set in the dockerfile as a lable.")
+	initCmd.Flags().StringP(descriptionFlag, "d", "", "A brief description of the project, set in the dockerfile as a label.")
+	initCmd.Flags().StringP(vendorNameFlag, "v", "", "The name of the vendor, set in the dockerfile as a label.")
 	initCmd.Flags().BoolP(helpFlag, "h", false, "Help for init command.")
 }
 
