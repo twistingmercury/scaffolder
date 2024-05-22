@@ -2,7 +2,7 @@ package conf
 
 var (
 	// build information: this is set at compile time using LDFlags
-	buildVer    = "n/a"
+	buildVer    = "1.0.1"
 	buildDate   = "n/a"
 	buildCommit = "n/a"
 )
