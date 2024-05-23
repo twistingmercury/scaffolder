@@ -10,10 +10,10 @@ import (
 )
 
 const ( // template variables
-	ModuleName  = `{{module_name}}`
-	BinName     = `{{bin_name}}`
-	Description = `{{description}}`
-	VendorName  = `{{vendor_name}}`
+	ModuleName  = `MODULE_NAME`
+	BinName     = `BIN_NAME`
+	Description = `IMG_DESCRIPTION`
+	VendorName  = `IMG_VENDOR_NAME`
 )
 
 const ( // flag names
@@ -25,23 +25,22 @@ const ( // flag names
 	tmplFlag        = "template"
 )
 
-// initCmd represents the init command for scaffolder.
-var initCmd = &cobra.Command{
-	Use:   "init",
-	Short: "Initializes a new project using a project from github.com as a template.",
-	Run:   CreateProject,
-}
+func NewInitCommand() *cobra.Command {
+	cmd := cobra.Command{
+		Use:   "scaffolder init [flags]",
+		Short: "Initializes a new project using a project from github.com as a template.",
+		Run:   CreateProject,
+	}
+	cmd.Flags().SortFlags = false
 
-func init() {
-	rootCmd.AddCommand(initCmd)
-	initCmd.Flags().SortFlags = false
+	cmd.Flags().StringP(moduleNameFlag, "m", "", "Name of the go module (e.g. github.com/username/project-name) as set in go.mod file")
+	cmd.Flags().StringP(binNameFlag, "b", "", "The name of the binary file to be compiled. Sets the service name in the conf.go file.")
+	cmd.Flags().StringP(tmplFlag, "t", "https://github.com/twistingmercury/go-basic-tmpl.git", "The project to clone from github.com.")
+	cmd.Flags().StringP(descriptionFlag, "d", "", "A brief description of the project, set in the Dockerfile as a label.")
+	cmd.Flags().StringP(vendorNameFlag, "v", "", "The name of the vendor, set in the Dockerfile as a label.")
+	cmd.Flags().BoolP(helpFlag, "h", false, "Help for init command.")
 
-	initCmd.Flags().StringP(moduleNameFlag, "m", "", "[Required] Name of the go module (e.g. github.com/username/project-name) as set in go.mod file")
-	initCmd.Flags().StringP(binNameFlag, "b", "", "[Required] The name of the binary file to be compiled. Sets the service name in the conf.go file.")
-	initCmd.Flags().StringP(tmplFlag, "t", "https://github.com/twistingmercury/gobasetmpl.git", "[Required] The project to clone from github.com.")
-	initCmd.Flags().StringP(descriptionFlag, "d", "", "A brief description of the project, set in the dockerfile as a label.")
-	initCmd.Flags().StringP(vendorNameFlag, "v", "", "The name of the vendor, set in the dockerfile as a label.")
-	initCmd.Flags().BoolP(helpFlag, "h", false, "Help for init command.")
+	return &cmd
 }
 
 // CreateProject creates a new project using a project from GitHub as a template.

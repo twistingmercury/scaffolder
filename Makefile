@@ -39,5 +39,5 @@ bin: clean
 
 .PHONY: test
 test:
-	go test -v ./conf ./api -coverprofile=coverage.out
+	go test -v ./cmd -coverprofile=coverage.out
 	go tool cover -html=coverage.out
