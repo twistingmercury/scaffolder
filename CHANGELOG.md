@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.0] - 2023-06-07
 
 ## Changed
-- Template tokens replacement have been update to accomodate new templates:
+- Template tokens replacement have been updated to accommodate new templates:
   
   | Old Token         | New Token         |
   |-------------------|-------------------|
