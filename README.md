@@ -20,7 +20,7 @@ scaffolder init -m <module-name> -b <bin-name> [-t <template-url>] [-d <descript
 
 ### Flags
 
-| Flag                | Required | Description                                                                                         |
+| Flag                | Required | DescriptionKey                                                                                         |
 |---------------------|----------|-----------------------------------------------------------------------------------------------------|
 | `-m, --module-name` | Yes      | The name of the Go module (e.g., github.com/username/project-name) as set in the `go.mod` file.     |
 | `-b, --bin-name`    | Yes      | The name of the binary file to be compiled. It sets the service name in the `conf.go` file.         |
@@ -49,7 +49,7 @@ The default template repository is `https://github.com/twistingmercury/gobasetmp
 
 Scaffolder supports the following template tokens that can be used in the template files:
 
-| Token             | Description                                            |
+| Token             | DescriptionKey                                            |
 |-------------------|--------------------------------------------------------|
 | `{{module_name}}` | Represents the name of the Go module.                  |
 | `{{bin_name}}`    | Represents the name of the binary file to be compiled. |

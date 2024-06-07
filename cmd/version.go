@@ -8,10 +8,10 @@ import (
 
 func NewVersionCmd() *cobra.Command {
 	return &cobra.Command{
-		Use:   "scaffolder version",
+		Use:   "version",
 		Short: "Returns the current scaffolder version",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			_, err := fmt.Fprintf(cmd.OutOrStdout(), "scaffolder version %s\n\n", conf.BuildVersion)
+			_, err := fmt.Fprintf(cmd.OutOrStdout(), "scaffolder version: %s, build date: %s\n\n", conf.BuildVersion(), conf.BuildDate())
 			return err
 		},
 	}
