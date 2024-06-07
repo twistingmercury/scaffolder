@@ -1,0 +1,17 @@
+' This is a sample block diagram
+@startuml example block diagram
+title "Example block diagram"
+skinparam linetype ortho
+
+card request <<gRPC>> as request
+node "API server"  as server
+queue "msg queue" as queue
+node "processData" <<worker process>> as worker
+database "storage" as database
+
+request -> server
+server -> queue
+queue -> worker
+worker -> database
+
+@enduml

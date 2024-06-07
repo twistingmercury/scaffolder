@@ -1,24 +1,30 @@
 package cmd
 
 import (
-	"os"
-
+	"fmt"
 	"github.com/spf13/cobra"
+	"os"
 )
 
-// rootCmd represents the base command when called without any subcommands
-var rootCmd = &cobra.Command{
-	Use:   "scaffolder",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
+const (
+	Usage     = "scaffolder [commands] [flags]"
+	ShortDesc = "Scaffolder is a CLI tool for Go project scaffolding"
+	LongDesc  = `Scaffolder is a command-line tool that allows you to 
+quickly create new Go projects based on templates 
+hosted on GitHub. It simplifies the process of 
+setting up a new project by cloning a template 
+repository and replacing template tokens with 
+user-provided values.`
+)
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	// Run: func(cmd *cobra.Command, args []string) { },
+func NewRootCmd() *cobra.Command {
+	rCmd := cobra.Command{
+		Use:   Usage,
+		Short: ShortDesc,
+		Long:  LongDesc,
+	}
+	rCmd.SetHelpFunc(help)
+	return &rCmd
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -34,14 +40,6 @@ func Execute() {
 	}
 }
 
-func init() {
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
-
-	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.scaffolder.yaml)")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	rootCmd.Flags().BoolP("help", "h", false, "Help for scaffolder command")
+func help(cmd *cobra.Command, args []string) {
+	fmt.Fprintln(cmd.OutOrStdout(), cmd.UsageString())
 }

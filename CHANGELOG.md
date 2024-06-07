@@ -5,7 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.0] - 2023-05-22
+## [1.1.0] - 2023-06-07
+
+## Changed
+- Template tokens replacement have been update to accomodate new templates:
+  
+  | Old Token         | New Token         |
+  |-------------------|-------------------|
+  | `{{module_name}}` | `MODULE_NAME`     |
+  | `{{bin_name}}`    | `BIN_NAME`        |
+  | `{{description}}` | `IMG_DESCRIPTION` |
+  | `{{vendor_name}}` | `IMG_VENDOR`      |
+
+  The old tokens are still supported for backwards compatibility with older templates.
+
+- Updated default template to `https://github.com/twistingmercury/go-basic-tmpl.git`.
+
+## [1.0.0] - 2024-05-22
 
 ### Added
 - Initial release of Scaffolder, a command-line tool for creating Go projects from templates.

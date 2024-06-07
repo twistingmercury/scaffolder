@@ -6,7 +6,7 @@ _[Bb]in/
 **/*.env
 
 # Output files
-**/*.actual
+**/*.out
 
 # Mac OS
 .DS_Store
@@ -50,7 +50,7 @@ $RECYCLE.BIN/
 *.vsix
 
 # JetBrains
-actual/
+out/
 .idea/
 
 # Virtual Environment

@@ -1,19 +1,15 @@
 package cmd
 
 import (
+	"errors"
 	"fmt"
 	"github.com/spf13/cobra"
+	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
+	"regexp"
 	"strings"
-)
-
-const ( // template variables
-	ModuleName  = `{{module_name}}`
-	BinName     = `{{bin_name}}`
-	Description = `{{description}}`
-	VendorName  = `{{vendor_name}}`
 )
 
 const ( // flag names
@@ -25,23 +21,80 @@ const ( // flag names
 	tmplFlag        = "template"
 )
 
-// initCmd represents the init command for scaffolder.
-var initCmd = &cobra.Command{
-	Use:   "init",
-	Short: "Initializes a new project using a project from github.com as a template.",
-	Run:   CreateProject,
+type Token []string
+
+type TokenInfo struct {
+	Keys  Token
+	Value string
 }
 
-func init() {
-	rootCmd.AddCommand(initCmd)
-	initCmd.Flags().SortFlags = false
+func (t TokenInfo) Regex() *regexp.Regexp {
+	return regexp.MustCompile(strings.Join(t.Keys, "|"))
+}
 
-	initCmd.Flags().StringP(moduleNameFlag, "m", "", "[Required] Name of the go module (e.g. github.com/username/project-name) as set in go.mod file")
-	initCmd.Flags().StringP(binNameFlag, "b", "", "[Required] The name of the binary file to be compiled. Sets the service name in the conf.go file.")
-	initCmd.Flags().StringP(tmplFlag, "t", "https://github.com/twistingmercury/gobasetmpl.git", "[Required] The project to clone from github.com.")
-	initCmd.Flags().StringP(descriptionFlag, "d", "", "A brief description of the project, set in the dockerfile as a label.")
-	initCmd.Flags().StringP(vendorNameFlag, "v", "", "The name of the vendor, set in the dockerfile as a label.")
-	initCmd.Flags().BoolP(helpFlag, "h", false, "Help for init command.")
+type TemplateInfo struct {
+	ModuleName  TokenInfo
+	BinName     TokenInfo
+	Description TokenInfo
+	VendorName  TokenInfo
+	RootDir     string
+	GitPath     string
+}
+
+var ( // template variables
+	ModuleNameTokens  = Token{`MODULE_NAME`, `{{module_name}}`}
+	BinNameTokens     = Token{`BIN_NAME`, `{{bin_name}}`}
+	DescriptionTokens = Token{`IMG_DESCRIPTION`, `{{description}}`}
+	VendorNameTokens  = Token{`IMG_VENDOR_NAME`, `{{vendor_name}}`}
+)
+
+func NewTemplateInfo(gitPath, rootDir, moduleName, binName, vendorName, description string) (te TemplateInfo, err error) {
+	if moduleName == "" {
+		return te, errors.New("no module name provided")
+	}
+	if binName == "" {
+		return te, errors.New("no bin name provided")
+	}
+	if gitPath == "" {
+		return te, errors.New("no git project URL provided")
+	}
+	if rootDir == "" {
+		return te, errors.New("no git project root provided")
+	}
+	if vendorName == "" {
+		vendorName = "TODO: provide a vendor name"
+	}
+	if description == "" {
+		description = fmt.Sprintf("TODO: provide a description for %s", binName)
+	}
+
+	te = TemplateInfo{
+		ModuleName:  TokenInfo{ModuleNameTokens, moduleName},
+		BinName:     TokenInfo{BinNameTokens, binName},
+		Description: TokenInfo{DescriptionTokens, description},
+		VendorName:  TokenInfo{VendorNameTokens, vendorName},
+		RootDir:     rootDir,
+		GitPath:     gitPath,
+	}
+	return
+}
+
+func NewInitCommand() *cobra.Command {
+	cmd := cobra.Command{
+		Use:   "init",
+		Short: "Initializes a new project using a Go template project from github.com.",
+		Run:   CreateProject,
+	}
+	cmd.Flags().SortFlags = false
+
+	cmd.Flags().StringP(moduleNameFlag, "m", "", "Name of the go module (e.g. github.com/username/project-name) as set in go.mod file")
+	cmd.Flags().StringP(binNameFlag, "b", "", "The name of the binary file to be compiled. Sets the service name in the conf.go file.")
+	cmd.Flags().StringP(tmplFlag, "t", "https://github.com/twistingmercury/go-basic-tmpl.git", "The project to clone from github.com.")
+	cmd.Flags().StringP(descriptionFlag, "d", "", "A brief description of the project, set in the Dockerfile as a label.")
+	cmd.Flags().StringP(vendorNameFlag, "v", "", "The name of the vendor, set in the Dockerfile as a label.")
+	cmd.Flags().BoolP(helpFlag, "h", false, "Help for init command.")
+
+	return &cmd
 }
 
 // CreateProject creates a new project using a project from GitHub as a template.
@@ -57,28 +110,16 @@ func CreateProject(cmd *cobra.Command, _ []string) {
 	description := cmd.Flag(descriptionFlag).Value.String()
 	vendorName := cmd.Flag(vendorNameFlag).Value.String()
 	gitPath := cmd.Flag(tmplFlag).Value.String()
+	rootDir := binName
 
-	if moduleName == "" {
-		_ = cmd.Help()
+	templateInfo, err := NewTemplateInfo(gitPath, rootDir, moduleName, binName, vendorName, description)
+	if err != nil {
+		fmt.Println("error creating template info:", err)
 		return
-	}
-	if binName == "" {
-		_ = cmd.Help()
-		return
-	}
-	if gitPath == "" {
-		_ = cmd.Help()
-		return
-	}
-	if vendorName == "" {
-		vendorName = "TODO: provide a vendor name"
-	}
-	if description == "" {
-		description = fmt.Sprintf("TODO: provide a description for %s", binName)
 	}
 
 	fmt.Printf("module name: %s\nbin name: %s\nvendor name: %s\ndescription: %s\ntemplate: %s\n", moduleName, binName, vendorName, description, gitPath)
-	err := Clone(gitPath, binName)
+	err = Clone(templateInfo)
 	if err != nil {
 		fmt.Println("error cloning project:", err)
 		return
@@ -97,7 +138,8 @@ func CreateProject(cmd *cobra.Command, _ []string) {
 		return
 	}
 
-	err = ReplaceInFiles(binName, moduleName, binName, description, vendorName)
+	err = ReplaceInFiles(templateInfo)
+
 	if err != nil {
 		fmt.Println("error replacing tokens:", err)
 		return
@@ -113,8 +155,8 @@ func CreateProject(cmd *cobra.Command, _ []string) {
 }
 
 // Clone clones a project from GitHub.com using the provided git path.
-func Clone(gitPath, binName string) error {
-	cloneCmd := exec.Command("git", "clone", gitPath, binName)
+func Clone(ti TemplateInfo) error {
+	cloneCmd := exec.Command("git", "clone", ti.GitPath, ti.RootDir)
 	err := cloneCmd.Start()
 	if err != nil {
 		return err
@@ -125,23 +167,23 @@ func Clone(gitPath, binName string) error {
 		return err
 	}
 
-	err = os.RemoveAll("./" + binName + "/.git")
+	err = os.RemoveAll("./" + ti.RootDir + "/.git")
 	if err != nil {
 		return err
 	}
 
-	return os.Remove("./" + binName + "/go.sum")
+	return os.Remove("./" + ti.RootDir + "/go.sum")
 }
 
 // ReplaceInFiles inspects all files in a directory and replaces tokens with the provided values.
-func ReplaceInFiles(path, moduleName, binName, descr, vendorName string) error {
-	err := filepath.Walk(path, func(path string, info os.FileInfo, err error) error {
+func ReplaceInFiles(ti TemplateInfo) error {
+	err := filepath.Walk(ti.RootDir, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
 
 		if !info.IsDir() {
-			newText, err := ReplaceTokens(path, moduleName, binName, descr, vendorName)
+			newText, err := ReplaceTokens(path, ti)
 			if err != nil {
 				return err
 			}
@@ -156,19 +198,25 @@ func ReplaceInFiles(path, moduleName, binName, descr, vendorName string) error {
 }
 
 // ReplaceTokens replaces tokens in a file with the provided values.
-func ReplaceTokens(path, moduleName, binName, descr, vendorName string) (string, error) {
-	bytes, err := os.ReadFile(path)
+func ReplaceTokens(filePath string, ti TemplateInfo) (string, error) {
+	bytes, err := os.ReadFile(filePath)
 	if err != nil {
 		return "", err
 	}
 
-	text := string(bytes)
-	updateText := strings.ReplaceAll(text, ModuleName, moduleName)
-	updateText = strings.ReplaceAll(updateText, BinName, binName)
-	updateText = strings.ReplaceAll(updateText, Description, descr)
-	updateText = strings.ReplaceAll(updateText, VendorName, vendorName)
+	var originalTxt = string(bytes)
 
-	return updateText, nil
+	if len(originalTxt) == 0 {
+		log.Printf("file %s is empty", filePath)
+		return "", nil
+	}
+
+	updatedText := ti.ModuleName.Regex().ReplaceAllString(originalTxt, ti.ModuleName.Value)
+	updatedText = ti.BinName.Regex().ReplaceAllString(updatedText, ti.BinName.Value)
+	updatedText = ti.VendorName.Regex().ReplaceAllString(updatedText, ti.VendorName.Value)
+	updatedText = ti.Description.Regex().ReplaceAllString(updatedText, ti.Description.Value)
+
+	return updatedText, nil
 }
 
 // GoModTidy runs `go mod tidy` in the provided path.
