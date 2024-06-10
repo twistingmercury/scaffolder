@@ -19,11 +19,3 @@ func Initialize() {
 func RootCmd() *cobra.Command {
 	return rootCmd
 }
-
-func VersionCmd() *cobra.Command {
-	return versionCmd
-}
-
-func InitCmd() *cobra.Command {
-	return initCmd
-}

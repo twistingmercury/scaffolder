@@ -4,7 +4,7 @@ Scaffolder is a command-line tool that allows you to quickly create new Go proje
 
 ## Installation
 
-To install Scaffolder, make sure you have Go installed on your system. Then, you can use the following command to install the tool:
+To install Scaffolder, make sure you have Go installed on your system. Use the following command to install the tool:
 
 ```bash
 go install github.com/twistingmercury/scaffolder@latest
@@ -20,7 +20,7 @@ scaffolder init -m <module-name> -b <bin-name> [-t <template-url>] [-d <descript
 
 ### Flags
 
-| Flag                | Required | DescriptionKey                                                                                         |
+| Flag                | Required | DescriptionKey                                                                                      |
 |---------------------|----------|-----------------------------------------------------------------------------------------------------|
 | `-m, --module-name` | Yes      | The name of the Go module (e.g., github.com/username/project-name) as set in the `go.mod` file.     |
 | `-b, --bin-name`    | Yes      | The name of the binary file to be compiled. It sets the service name in the `conf.go` file.         |
@@ -49,12 +49,12 @@ The default template repository is `https://github.com/twistingmercury/gobasetmp
 
 Scaffolder supports the following template tokens that can be used in the template files:
 
-| Token             | DescriptionKey                                            |
-|-------------------|--------------------------------------------------------|
-| `{{module_name}}` | Represents the name of the Go module.                  |
-| `{{bin_name}}`    | Represents the name of the binary file to be compiled. |
-| `{{description}}` | Represents the description of the project.             |
-| `{{vendor_name}}` | Represents the name of the vendor.                     |
+| Token              | DescriptionKey                                         |
+|--------------------|--------------------------------------------------------|
+| `MODULE_NAME`      | Represents the name of the Go module.                  |
+| `BIN_NAME`         | Represents the name of the binary file to be compiled. |
+| `IMG_DESCCRIPTION` | Represents the description of the project.             |
+| `IMG_VENDOR_NAME`  | Represents the name of the vendor.                     |
 
 These tokens will be replaced with the corresponding user-provided values during project creation.
 

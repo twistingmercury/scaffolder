@@ -1,9 +1,9 @@
 package conf
 
-var (
+const (
 	// build information: this is set at compile time using LDFlags
-	buildVer  = "n/a"
-	buildDate = "n/a"
+	buildVer  = "v1.1.0"
+	buildDate = "2024-06-10"
 )
 
 func BuildVersion() string {
