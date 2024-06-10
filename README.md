@@ -12,13 +12,22 @@ go install github.com/twistingmercury/scaffolder@v1.1.1
 
 ## Usage
 
-To create a new project using Scaffolder, use the `init` command followed by the required flags:
+| Available Commands | Description                                                         |
+|--------------------|---------------------------------------------------------------------|
+| completion         | Generate the autocompletion script for the specified shell          |
+| help               | Help about any command                                              |
+| init               | Initializes a new project using a Go template project from GitHub.  |
+| version            | Returns the current scaffolder version                              |
 
+
+## init Flags
+
+To create a new project using Scaffolder, use the `init` command followed by the required flags:
 ```
 scaffolder init -m <module-name> -b <bin-name> [-t <template-url>] [-d <description>] [-v <vendor-name>]
 ```
 
-### Flags
+#
 
 | Flag                | Required | DescriptionKey                                                                                      |
 |---------------------|----------|-----------------------------------------------------------------------------------------------------|
