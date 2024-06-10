@@ -1,8 +1,6 @@
 mode: set
 github.com/twistingmercury/scaffolder/cmd/cmd.go:11.19,17.2 5 1
 github.com/twistingmercury/scaffolder/cmd/cmd.go:19.31,21.2 1 1
-github.com/twistingmercury/scaffolder/cmd/cmd.go:23.34,25.2 1 0
-github.com/twistingmercury/scaffolder/cmd/cmd.go:27.31,29.2 1 0
 github.com/twistingmercury/scaffolder/cmd/init.go:31.43,33.2 1 1
 github.com/twistingmercury/scaffolder/cmd/init.go:51.122,52.22 1 1
 github.com/twistingmercury/scaffolder/cmd/init.go:52.22,54.3 1 1
@@ -64,5 +62,5 @@ github.com/twistingmercury/scaffolder/cmd/root.go:33.37,36.3 2 0
 github.com/twistingmercury/scaffolder/cmd/root.go:37.2,38.16 2 1
 github.com/twistingmercury/scaffolder/cmd/root.go:38.16,40.3 1 0
 github.com/twistingmercury/scaffolder/cmd/root.go:43.46,45.2 1 1
-github.com/twistingmercury/scaffolder/cmd/version.go:9.37,13.55 1 1
-github.com/twistingmercury/scaffolder/cmd/version.go:13.55,16.4 2 1
+github.com/twistingmercury/scaffolder/cmd/version.go:16.37,20.55 1 1
+github.com/twistingmercury/scaffolder/cmd/version.go:20.55,27.4 2 1

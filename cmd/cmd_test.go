@@ -44,8 +44,8 @@ func TestVersionCmd(t *testing.T) {
 	require.NoError(t, err)
 	bits, err := io.ReadAll(b)
 	actual := strings.TrimSpace(string(bits))
-	expected := "scaffolder version: n/a, build date: n/a"
-	assert.Equal(t, expected, actual)
+	expected := "version: v1.1.0, commit date: 2024-06-10"
+	assert.Contains(t, actual, expected)
 }
 
 func TestNewTemplateInfo(t *testing.T) {

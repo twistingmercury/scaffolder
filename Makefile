@@ -1,7 +1,5 @@
 BIN_DIR := ./bin/
 BIN_NAME := scaffolder
-BUILD_DATE := $(shell date +"%Y-%m-%dT%H:%M:%S")
-BUILD_VER := "1.1.0"
 MODULE_NAME :=  "github.com/twistingmercury/scaffolder"
 
 default: help
@@ -21,8 +19,7 @@ clean:
 .PHONY: bin
 bin: clean
 	go build \
-	-ldflags "-X '$(MODULE_NAME)/conf.buildDate=$(BUILD_DATE)' \
-	-X '$(MODULE_NAME)/conf.buildVer=$(BUILD_VER)' -s -w" \
+	-ldflags "-s -w" \
 	-o "$(BIN_DIR)$(BIN_NAME)" ./main.go
 
 .PHONY: test
