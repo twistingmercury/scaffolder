@@ -7,11 +7,9 @@ import (
 )
 
 const logo = `
- o-o            o-o o-o    o    o         
-|               |   |      |    |         
- o-o   o-o  oo -O- -O- o-o |  o-O o-o o-o 
-    | |    | |  |   |  | | | |  | |-' |   
-o--o   o-o o-o- o   o  o-o o  o-o o-o o `
+╔═╗┌─┐┌─┐┌─┐┌─┐┌─┐┬  ┌┬┐┌─┐┬─┐
+╚═╗│  ├─┤├┤ ├┤ │ ││   ││├┤ ├┬┘
+╚═╝└─┘┴ ┴└  └  └─┘┴─┘─┴┘└─┘┴└─`
 
 func NewVersionCmd() *cobra.Command {
 	return &cobra.Command{
@@ -19,10 +17,9 @@ func NewVersionCmd() *cobra.Command {
 		Short: "Returns the current scaffolder version",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			_, err := fmt.Fprintf(cmd.OutOrStdout(),
-				"%s\nversion: %s, commit date: %s\n\n",
+				"%s\n%s\n\n",
 				logo,
-				conf.BuildVersion(),
-				conf.BuildDate())
+				conf.BuildVersion)
 			return err
 		},
 	}

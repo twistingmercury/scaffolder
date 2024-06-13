@@ -29,14 +29,14 @@ scaffolder init -m <module-name> -b <bin-name> [-t <template-url>] [-d <descript
 
 #
 
-| Flag                | Required | DescriptionKey                                                                                      |
-|---------------------|----------|-----------------------------------------------------------------------------------------------------|
-| `-m, --module-name` | Yes      | The name of the Go module (e.g., github.com/username/project-name) as set in the `go.mod` file.     |
-| `-b, --bin-name`    | Yes      | The name of the binary file to be compiled. It sets the service name in the `conf.go` file.         |
+| Flag                | Required | DescriptionKey                                                                                                                                 |
+|---------------------|----------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| `-m, --module-name` | Yes      | The name of the Go module (e.g., github.com/username/project-name) as set in the `go.mod` file.                                                |
+| `-b, --bin-name`    | Yes      | The name of the binary file to be compiled. It sets the service name in the `conf.go` file.                                                    |
 | `-t, --template`    | No       | The URL of the GitHub repository to clone and use as a template. Defaults to [go-basic-tmpl](https://github.com/twistingmercury/go-basic-tmpl) |
-| `-d, --description` | No       | A brief description of the project, set in the Dockerfile as a label.                               |
-| `-v, --vendor-name` | No       | The name of the vendor, set in the Dockerfile as a label.                                           |
-| `-h, --help`        | No       | Display help information for the `init` command.                                                    |
+| `-d, --description` | No       | A brief description of the project, set in the Dockerfile as a label.                                                                          |
+| `-v, --vendor-name` | No       | The name of the vendor, set in the Dockerfile as a label.                                                                                      |
+| `-h, --help`        | No       | Display help information for the `init` command.                                                                                               |
 
 ### Example
 

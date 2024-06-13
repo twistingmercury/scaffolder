@@ -232,5 +232,9 @@ func GoModTidy(path string) error {
 
 // MakeExecutable makes a file executable.
 func MakeExecutable(path string) error {
+	info, err := os.Stat(path)
+	if os.IsNotExist(err) || info.IsDir() {
+		return nil
+	}
 	return os.Chmod(path, 0755)
 }

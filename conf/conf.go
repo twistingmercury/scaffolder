@@ -1,15 +1,6 @@
 package conf
 
-const (
-	// build information: this is set at compile time using LDFlags
-	buildVer  = "v1.1.0"
-	buildDate = "2024-06-10"
+const ( // build information: this is set at compile time using LDFlags
+	BuildVersion = "v1.1.1"
+	CommitDate   = "2024-06-13"
 )
-
-func BuildVersion() string {
-	return buildVer
-}
-
-func BuildDate() string {
-	return buildDate
-}
