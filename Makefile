@@ -25,4 +25,4 @@ bin: clean
 .PHONY: test
 test:
 	go test -v ./cmd -coverprofile=coverage.out
-	go tool cover -html=coverage.out
+	go tool cover -html=coverage.out`

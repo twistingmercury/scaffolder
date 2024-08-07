@@ -42,10 +42,10 @@ type TemplateInfo struct {
 }
 
 var ( // template variables
-	ModuleNameTokens  = Token{`MODULE_NAME`, `{{module_name}}`}
-	BinNameTokens     = Token{`BIN_NAME`, `{{bin_name}}`}
-	DescriptionTokens = Token{`IMG_DESCRIPTION`, `{{description}}`}
-	VendorNameTokens  = Token{`IMG_VENDOR_NAME`, `{{vendor_name}}`}
+	ModuleNameTokens  = Token{`MODULE_NAME`, `{{module_name}}`, `token_go_module`}
+	BinNameTokens     = Token{`BIN_NAME`, `{{bin_name}}`, `token_go_bin`}
+	DescriptionTokens = Token{`IMG_DESCRIPTION`, `{{description}}`, `token_go_description`}
+	VendorNameTokens  = Token{`IMG_VENDOR_NAME`, `{{vendor_name}}`, `token_go_vendor`}
 )
 
 func NewTemplateInfo(gitPath, rootDir, moduleName, binName, vendorName, description string) (te TemplateInfo, err error) {
