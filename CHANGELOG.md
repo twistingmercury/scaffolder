@@ -5,15 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.1.2] - 2023-06-13
+## [1.1.3] - 2024-08-07
+### Fixed
+- Token `token_go_module` was not being replaced in the template.
+
+
+## [1.1.2] - 2024-06-13
 ### Changed
 - Fixed a bug that causes Scaffolder to fail if certain directories or files may not exist within a given template.
 
-## [1.1.1] - 2023-06-10
+## [1.1.1] - 2024-06-10
 ### Changed
 - No functional updates. Just fixed version info.
 
-## [1.1.0] - 2023-06-07
+## [1.1.0] - 2024-06-07
 
 ### Changed
 - Template tokens replacement have been updated to accommodate new templates:
@@ -43,7 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Built-in template repository at `https://github.com/twistingmercury/gobasetmpl.git`.
 - Template token replacement for `{{module_name}}`, `{{bin_name}}`, `{{description}}`, and `{{vendor_name}}`.
 - README file with installation, usage, and contribution guidelines.
-
+[1.1.3]: https://github.com/twistingmercury/scaffolder/compare/v1.1.2...v1.1.3
 [1.1.2]: https://github.com/twistingmercury/scaffolder/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/twistingmercury/scaffolder/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/twistingmercury/scaffolder/compare/v1.0.0...v1.1.0
