@@ -60,10 +60,10 @@ Scaffolder supports the following template tokens that can be used in the templa
 
 | Token              | DescriptionKey                                         |
 |--------------------|--------------------------------------------------------|
-| `MODULE_NAME`      | Represents the name of the Go module.                  |
-| `BIN_NAME`         | Represents the name of the binary file to be compiled. |
-| `IMG_DESCCRIPTION` | Represents the description of the project.             |
-| `IMG_VENDOR_NAME`  | Represents the name of the vendor.                     |
+| `token_go_module`      | Represents the name of the Go module.                  |
+| `token_go_bin`         | Represents the name of the binary file to be compiled. |
+| `token_go_description` | Represents the description of the project.             |
+| `token_go_vendor`  | Represents the name of the vendor.                     |
 
 These tokens will be replaced with the corresponding user-provided values during project creation.
 
