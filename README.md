@@ -7,7 +7,7 @@ Scaffolder is a command-line tool that allows you to quickly create new Go proje
 To install Scaffolder, make sure you have Go installed on your system. Use the following command to install the tool:
 
 ```bash
-go install github.com/twistingmercury/scaffolder@v1.1.2
+go install github.com/twistingmercury/scaffolder@v1.1.3
 ```
 
 ## Usage
